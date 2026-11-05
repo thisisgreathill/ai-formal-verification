@@ -1,0 +1,41 @@
+{
+  "id": "internal-transfer-v1",
+  "status": "example-review-required",
+  "description": "Transfer integer minor currency units between two accounts without fees.",
+  "inputs": {
+    "senderBalance": "nonnegative integer",
+    "recipientBalance": "nonnegative integer",
+    "amount": "nonnegative integer"
+  },
+  "preconditions": [
+    "senderBalance >= amount",
+    "senderBalance >= 0",
+    "recipientBalance >= 0",
+    "amount >= 0"
+  ],
+  "postconditions": [
+    "senderAfter == senderBalance - amount",
+    "recipientAfter == recipientBalance + amount"
+  ],
+  "invariants": [
+    "senderAfter + recipientAfter == senderBalance + recipientBalance",
+    "senderAfter >= 0",
+    "recipientAfter >= 0"
+  ],
+  "failureBehavior": "Reject amount exceeding available sender balance without changing state.",
+  "assumptions": [
+    "Values are safe integers denominated in minor units.",
+    "Single synchronous operation; concurrency and persistence are not modeled.",
+    "No fees, FX rates, reserved funds, or overdraft."
+  ],
+  "verification": [
+    "fast-check property tests",
+    "Z3 symbolic model proof"
+  ],
+  "outOfScope": [
+    "SQL transaction isolation",
+    "double-spend races",
+    "API authentication",
+    "idempotency of remote requests"
+  ]
+}
