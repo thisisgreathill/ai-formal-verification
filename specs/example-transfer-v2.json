@@ -1,0 +1,22 @@
+{
+  "id": "internal-transfer-v2",
+  "status": "example-review-required",
+  "description": "Transfer integer minor units between two accounts without fees (v2 contract with traceability).",
+  "scope": ["src/transfer.js"],
+  "operations": [{
+    "name": "transfer",
+    "inputs": { "senderBalance": "nonnegative integer", "recipientBalance": "nonnegative integer", "amount": "nonnegative integer" },
+    "preconditions": ["senderBalance >= amount"],
+    "postconditions": ["senderAfter == senderBalance - amount", "recipientAfter == recipientBalance + amount"],
+    "failureBehavior": "Reject amount exceeding sender balance (RangeError) without changing state."
+  }],
+  "invariants": [
+    { "id": "I1", "statement": "Total value is conserved", "checks": ["tests/transfer.test.js::conserves balances"] },
+    { "id": "I2", "statement": "Insufficient funds are rejected", "checks": ["tests/transfer.test.js::rejects insufficient funds"] }
+  ],
+  "decisions": [{ "id": "D1", "question": "Overdraft allowed?", "choice": "No", "rationale": "Operator must not lose money", "source": "owner" }],
+  "issues": [],
+  "assumptions": ["Single synchronous operation; persistence and concurrency not modeled."],
+  "verification": ["fast-check property tests", "Z3 symbolic model"],
+  "outOfScope": ["SQL isolation", "double-spend races", "authentication", "remote idempotency"]
+}

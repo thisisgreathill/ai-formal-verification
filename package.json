@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "verify:spec": "node scripts/verify-contract.mjs specs/example-transfer.json",
+    "verify:spec": "node scripts/verify-contract.mjs specs/example-transfer.json && node scripts/verify-contract.mjs specs/example-transfer-v2.json --strict",
     "test": "vitest run",
     "verify:js": "npm run verify:spec && npm test",
     "verify:formal": "python3 formal/transfer_proof.py",

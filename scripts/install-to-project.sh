@@ -11,10 +11,14 @@ copy_if_absent() {
   cp "$SOURCE/$src" "$TARGET/$dest"
   echo "ADD: $dest"
 }
-copy_if_absent ".agents/skills/formal-verification/SKILL.md" ".agents/skills/formal-verification/SKILL.md"
-copy_if_absent ".claude/skills/formal-verification/SKILL.md" ".claude/skills/formal-verification/SKILL.md"
-copy_if_absent "AGENTS.md" "AGENTS.md"
-copy_if_absent "CLAUDE.md" "CLAUDE.md"
-copy_if_absent "specs/example-transfer.json" "specs/example-transfer.json"
-copy_if_absent "scripts/verify-contract.mjs" "scripts/verify-contract.mjs"
-echo "Installed templates safely. Review and adapt the specification, then integrate tests into your project scripts."
+for f in \
+  ".agents/skills/formal-verification/SKILL.md" \
+  ".claude/skills/formal-verification/SKILL.md" \
+  "AGENTS.md" "CLAUDE.md" \
+  "docs/BUG-CLASSES.md" \
+  "scripts/verify-contract.mjs" "scripts/mutation-checklist.md" \
+  "templates/contract.template.json" "templates/evidence-report.template.md" "templates/model-based.test.template.ts" \
+  "specs/example-transfer.json"; do
+  copy_if_absent "$f" "$f"
+done
+echo "Installed. Next: copy templates/contract.template.json to specs/<id>.json, fill it, run: node scripts/verify-contract.mjs specs/<id>.json --strict"

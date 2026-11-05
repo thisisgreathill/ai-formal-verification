@@ -36,6 +36,14 @@ The installer **does not overwrite** existing files. It copies skill definitions
 
 Use the skill for high-risk logic. First agree on the assumptions and properties to verify, then implement and test.
 
+## What actually finds money bugs (lessons from a real project)
+
+Model proofs alone found none of the real defects. What did: a **written spec from owner decisions**, a **pure reference model**,
+**seeded random event sequences against the real Postgres** compared with the model after every step, **concurrency pairs**,
+**adversarial scenarios**, **mutation checks** and an **independent second review**. Catalogue: `docs/BUG-CLASSES.md`.
+Templates: `templates/` (contract v2 with traceability, model-based test skeleton, evidence report).
+Validate a contract: `node scripts/verify-contract.mjs specs/<id>.json --strict`.
+
 ## Verification levels
 
 1. **Executable checks:** TypeScript / lint / unit / integration / browser tests.
