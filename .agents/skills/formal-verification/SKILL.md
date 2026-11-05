@@ -25,6 +25,11 @@ test against the REAL database and REAL service code can reveal. See `docs/BUG-C
 List every code path that moves value or changes entitlement (grep services, routes, server actions,
 webhooks, cron/outbox consumers, admin actions). Output a table: path, actor, trigger, tables written.
 
+### Phase 0.5 — Spec first, from documents (independence)
+Before opening the code, read ONLY docs and owner decisions and write each operation's pre/postconditions and invariants (commit it).
+Then read the code and add every difference as `issues[]` — never bend the spec to the code. Ideally the spec author is a
+session/agent that has not seen the code.
+
 ### Phase 1 — Contract (`specs/<id>.json` + `docs/<ID>-SPEC.md`)
 Use `templates/contract.template.json`. For every operation: inputs, preconditions, postconditions,
 failure behaviour, and numbered INVARIANTS (I1..In) written as checkable statements. Each invariant must list
@@ -43,6 +48,7 @@ to read in one sitting and independently derived from the spec.
   (non-negativity, conservation vs ledger, caps, monotone counters, idempotent replays, closed states stay closed).
 - Concurrency: run pairs/groups of operations with `Promise.all` on the same user/row (double spend, double claim,
   refund vs settle, cancel vs draw) and assert exactly-once semantics. Use a small DB pool too (pool starvation is a real bug class).
+- The generator must funnel (else most steps are rejected 'insufficient balance'), enforce a minimum coverage (every operation type accepted at least once), reset global settings/flags at the start of every sequence, and for concurrent pairs require the result to equal one of the two serial orders.
 - Report: seeds, runs, steps per run, number of operations by type (a never-exercised operation = untested).
 
 ### Phase 4 — Adversarial strategies
@@ -53,11 +59,11 @@ tiny stakes with rounding, late events after closure, duplicate/replayed callbac
 ### Phase 5 — Mutation check (tests must be able to FAIL)
 For each critical rule, inject a deliberate bug in a scratch copy (drop a lock, remove an idempotency check, use `>=` for `>`,
 skip a cap, double-credit) and confirm the suite goes RED. A rule whose mutation survives is untested: add a test.
-Record `mutations killed / total` in the report. Use the helper in `scripts/mutation-checklist.md`.
+Record `mutations killed / total` in the report. Use `scripts/mutation-checklist.md`. For every surviving mutant ask: (a) what observable behaviour does it change? (b) if none, report as equivalent with the reason (e.g. a UNIQUE constraint gives the same guarantee); (c) otherwise add a test. Random-only suites usually kill ~30% of mutants: the rest need targeted boundary/concurrency scenarios.
 
 ### Phase 6 — Independent second look
 After fixes, re-read the changed code adversarially as a different reviewer: for each fix ask "what new state/path does this create?".
-Prefer a second independent agent/session on the same scope; diff findings.
+Prefer a second independent agent/session on the same scope; diff findings. Give it only the diff and file paths, not your conclusions; split its output into 'code change' vs 'owner decision / latent'.
 
 ### Phase 7 — Evidence report (`docs/<ID>-VERIFICATION.md`, `templates/evidence-report.template.md`)
 Scope, spec version, commands run, counts, findings (severity, class, failing test first, fix), decisions, residual risks,

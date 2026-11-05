@@ -18,6 +18,11 @@ Gerçek bir projede (bahis/bonus/çekim platformu) bulunan hatalardan derlendi. 
 | **ZOMBIE-FIELD** Modelde olmayan alana yazan kod | `failedAt/externalId` olmayan kolona yazım → her geri çağrı 500 | tsc + gerçek DB'de rota çağrısı |
 | **ENV-DEP** Test ortamı bağımlılığı | CI'da DB'siz kırılan test, yerelde geçiyor | Temiz ortamda (CI) koşu |
 | **MERGE-SEMANTIC** İki doğru değişikliğin birleşince yanlış olması | Referral komisyonu bekletme kararı eski bir testi kırdı | Birleşik daldan tam suite |
+| **CHECK-BEFORE-LOCK** (TOCTOU) | Ödül/iade dışlaması kilitten önce karar verildi, eşzamanlı ikisi de ödendi (25 denemede 24) | Karşıt iki işlemi `Promise.all` ile 20+ kez; her karşılıklı-dışlama kontrolünün kilitten SONRA olduğunu doğrula |
+| **KILL-SWITCH-PARTIAL** | Bir ayar yalnız tek yolda uygulanıyor | Ayarı kapat, ilgili HER para yolunu çalıştır |
+| **SERVICE-PRECONDITION-GAP** | Doğrulama yalnız HTTP rotasında, servis 0/negatif kabul ediyor | Servisi doğrudan 0, -1, NaN, 0.005, Infinity ile çağır |
+| **UNLEDGERED-CREDIT** | Defter satırı/idempotency'siz bakiye artıran metot veya betik | "Çağıranı olmayan servis metodu" + kök dizin betikleri taraması |
+| **TURNOVER-REVERSAL** | Çevrim/eşik, geri alınan işlemi sayıyor | Her çevrim kaynağı için alım→iade→eşik dizisi |
 
 ## Saldırı stratejileri (her projede sırayla dene)
 1. Aynı işlemi iki kez gönder (replay) ve eşzamanlı gönder.
