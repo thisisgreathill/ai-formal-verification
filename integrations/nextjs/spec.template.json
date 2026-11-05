@@ -1,27 +1,27 @@
 {
-  "id": "replace-with-task-id",
-  "description": "Describe concrete desired behavior.",
-  "status": "review-required",
-  "inputs": {
-    "input": "Specify types and units"
-  },
-  "preconditions": [
-    "Write a precise precondition"
-  ],
-  "postconditions": [
-    "Write an observable postcondition"
+  "id": "<alan>-v1",
+  "status": "draft | owner-reviewed",
+  "description": "",
+  "scope": ["dosya/yol listesi"],
+  "operations": [
+    {
+      "name": "",
+      "inputs": {},
+      "preconditions": [],
+      "postconditions": [],
+      "failureBehavior": "durum DEĞİŞMEDEN reddet"
+    }
   ],
   "invariants": [
-    "Write an invariant to test"
+    {
+      "id": "I1",
+      "statement": "Hiçbir bakiye negatif olmaz",
+      "checks": ["src/__tests__/<alan>/model.test.ts::no negative balances"]
+    }
   ],
-  "failureBehavior": "Specify atomic failures and rollback behavior.",
-  "assumptions": [
-    "Review all domain assumptions with the owner"
-  ],
-  "verification": [
-    "Specify tests and formal models"
-  ],
-  "outOfScope": [
-    "List unmodeled cases"
-  ]
+  "decisions": [{ "id": "D1", "question": "", "choice": "", "rationale": "", "source": "owner | safest-default | derived-from-code" }],
+  "issues": [{ "id": "A1", "description": "doküman-kod çelişkisi / belirsizlik", "resolution": "" }],
+  "assumptions": [],
+  "verification": ["model-based real-DB tests", "concurrency tests", "mutation check"],
+  "outOfScope": []
 }
