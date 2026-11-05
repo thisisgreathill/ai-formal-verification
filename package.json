@@ -1,0 +1,17 @@
+{
+  "name": "ai-formal-verification",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "verify:spec": "node scripts/verify-contract.mjs specs/example-transfer.json",
+    "test": "vitest run",
+    "verify:js": "npm run verify:spec && npm test",
+    "verify:formal": "python3 formal/transfer_proof.py",
+    "verify": "npm run verify:js && npm run verify:formal"
+  },
+  "devDependencies": {
+    "fast-check": "^4.3.0",
+    "vitest": "^3.2.4"
+  }
+}
