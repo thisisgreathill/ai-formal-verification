@@ -63,3 +63,13 @@ Validate a contract: `node scripts/verify-contract.mjs specs/<id>.json --strict`
 ## Safety
 
 Never approve code merely because an AI agent says it is verified. Models can omit cases, and passing generated tests cannot prove the requirements themselves are correct. Review the specification separately from the implementation and enforce required CI checks in GitHub repository settings.
+
+## Reusable Next.js / TypeScript integration
+
+See [integrations/nextjs/README.md](integrations/nextjs/README.md). Install into an existing Next.js project with:
+
+```bash
+node integrations/nextjs/install.mjs /absolute/path/to/your-nextjs-project
+```
+
+The new integration provides independent Codex/Claude skills, an opt-in Stop hook, Vitest property tests, Z3 model proof, Playwright smoke test, namespaced npm scripts and a GitHub Actions workflow template. Use `npm run verify:kit` to validate this repository's integration example. This kit cannot prove unmodeled application behavior.

@@ -1,0 +1,27 @@
+{
+  "id": "<alan>-v1",
+  "status": "draft | owner-reviewed",
+  "description": "",
+  "scope": ["dosya/yol listesi"],
+  "operations": [
+    {
+      "name": "",
+      "inputs": {},
+      "preconditions": [],
+      "postconditions": [],
+      "failureBehavior": "durum DEĞİŞMEDEN reddet"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "I1",
+      "statement": "Hiçbir bakiye negatif olmaz",
+      "checks": ["src/__tests__/<alan>/model.test.ts::no negative balances"]
+    }
+  ],
+  "decisions": [{ "id": "D1", "question": "", "choice": "", "rationale": "", "source": "owner | safest-default | derived-from-code" }],
+  "issues": [{ "id": "A1", "description": "doküman-kod çelişkisi / belirsizlik", "resolution": "" }],
+  "assumptions": [],
+  "verification": ["model-based real-DB tests", "concurrency tests", "mutation check"],
+  "outOfScope": []
+}

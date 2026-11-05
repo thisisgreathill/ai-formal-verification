@@ -1,0 +1,33 @@
+name: Formal Verification
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      # --z3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # --end-z3
+      - run: npm ci
+      # --z3
+      - run: python -m pip install -r verification/requirements.txt
+      # --end-z3
+      - run: npm run fv:check
+      # --z3
+      - run: npm run fv:formal
+      # --end-z3
+      # --e2e
+      - run: npx playwright install --with-deps chromium
+      - run: npm run fv:e2e
+      # --end-e2e
