@@ -8,7 +8,8 @@
     "test": "vitest run",
     "verify:js": "npm run verify:spec && npm test",
     "verify:formal": "python3 formal/transfer_proof.py",
-    "verify": "npm run verify:js && npm run verify:formal"
+    "verify": "npm run verify:js && npm run verify:formal && npm run verify:kit",
+    "verify:kit": "node --check integrations/nextjs/install.mjs && node --check integrations/nextjs/hooks/claude-stop.mjs && node integrations/nextjs/tests/installer.test.mjs && vitest run --config integrations/nextjs/vitest.selftest.config.ts"
   },
   "devDependencies": {
     "fast-check": "^4.3.0",
