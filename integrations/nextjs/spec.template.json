@@ -1,0 +1,27 @@
+{
+  "id": "replace-with-task-id",
+  "description": "Describe concrete desired behavior.",
+  "status": "review-required",
+  "inputs": {
+    "input": "Specify types and units"
+  },
+  "preconditions": [
+    "Write a precise precondition"
+  ],
+  "postconditions": [
+    "Write an observable postcondition"
+  ],
+  "invariants": [
+    "Write an invariant to test"
+  ],
+  "failureBehavior": "Specify atomic failures and rollback behavior.",
+  "assumptions": [
+    "Review all domain assumptions with the owner"
+  ],
+  "verification": [
+    "Specify tests and formal models"
+  ],
+  "outOfScope": [
+    "List unmodeled cases"
+  ]
+}
